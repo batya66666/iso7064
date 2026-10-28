@@ -14,6 +14,12 @@ public class Mod661_26Test extends GenericTest {
 	protected String getInputCharacters() {
 		return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
+
+	@Override
+	protected Iso7064Reference getReferenceSystem() {
+		return new Iso7064Reference(661, 26, "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2, 330, false);
+	}
 	
 	@Test
 	public void testBasic() {

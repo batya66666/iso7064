@@ -18,6 +18,11 @@ public class Mod11_2 extends PureSystemCalculator {
 	}
 
 	@Override
+	protected String getInputCharacterSet() {
+		return "0123456789";
+	}
+
+	@Override
 	protected boolean isDoubleCheckDigit() {
 		return false;
 	}

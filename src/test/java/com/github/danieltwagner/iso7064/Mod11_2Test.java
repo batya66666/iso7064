@@ -14,6 +14,11 @@ public class Mod11_2Test extends GenericTest {
 	protected String getInputCharacters() {
 		return "0123456789";
 	}
+
+	@Override
+	protected Iso7064Reference getReferenceSystem() {
+		return new Iso7064Reference(11, 2, "0123456789", "0123456789X", 1, 10, false);
+	}
 	
 	@Test
 	public void testBasic() {

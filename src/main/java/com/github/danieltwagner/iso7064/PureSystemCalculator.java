@@ -6,6 +6,15 @@ public abstract class PureSystemCalculator {
     protected abstract int getRadix();
     protected abstract String getCharacterSet();
     protected abstract boolean isDoubleCheckDigit();
+
+    protected String getInputCharacterSet() {
+        return getCharacterSet();
+    }
+
+    /** Returns the check value; MOD 97-10 overrides this to use 98 - remainder. */
+    protected int getCheckValue(int valueAfterData, int modulus) {
+        return (modulus - valueAfterData + 1) % modulus;
+    }
     
     /**
      * Verify if the given input is a protected code with valid check characters.
@@ -30,34 +39,32 @@ public abstract class PureSystemCalculator {
      * @throws IllegalStateException Raised if an illegal character is encountered.
      */
     public String compute(String input) throws IllegalStateException {
-    	input = input.toUpperCase();
-    	int m = getModulus();
-    	int r = getRadix();
-    	String chars = getCharacterSet();
-    	boolean doubleDigit = isDoubleCheckDigit();
-    	
-    	// process the string 
-    	int p = 0;
-    	for(int i = 0; i < input.length(); i++) {
-    		int val = chars.indexOf(input.charAt(i));
-    		if(val < 0) throw new IllegalStateException("Found illegal character " + input.charAt(i));
-    		
-    		p = ((p + val) * r)%m;
-    	}
-    	
-    	// if we want a double digit output we perform one additional pass with val = 0
-    	if(doubleDigit) p = (p*r)%m;
-    	
-    	// now compute what checksum will be = 1 mod M
-    	int checksum = (m - p + 1)%m;
-    	
-    	if(doubleDigit) {
-    		int second = checksum % r;
-    		int first = (checksum - second) / r;
-    		return input+chars.charAt(first)+chars.charAt(second);
-    	} else {
-    		return input+chars.charAt(checksum);
-    	}
+        input = input.toUpperCase();
+        int m = getModulus();
+        int r = getRadix();
+        String chars = getCharacterSet();
+        String inputChars = getInputCharacterSet();
+        boolean doubleDigit = isDoubleCheckDigit();
+
+        // Process the input characters from left to right.
+        int p = 0;
+        for (int i = 0; i < input.length(); i++) {
+            int val = inputChars.indexOf(input.charAt(i));
+            if (val < 0) throw new IllegalStateException("Found illegal character " + input.charAt(i));
+
+            p = ((p + val) * r) % m;
+        }
+
+        // For two check characters, perform one additional pass with val = 0.
+        if (doubleDigit) p = (p * r) % m;
+
+        int checksum = getCheckValue(p, m);
+        if (doubleDigit) {
+            int second = checksum % r;
+            int first = (checksum - second) / r;
+            return input + chars.charAt(first) + chars.charAt(second);
+        }
+        return input + chars.charAt(checksum);
     }
     
 }
