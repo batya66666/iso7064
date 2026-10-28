@@ -28,7 +28,7 @@ For input `97`, the standard procedure gives:
 
 The expected complete code is `9798`. The previous implementation returned `9701`: it was internally consistent because its `verify` recomputed the same result, but it did not follow the MOD 97-10 generation procedure. The MOD 97-10 implementation now uses the standard `98 - remainder` rule, and separate tests require `compute("97") == "9798"` and `verify("9798") == true`.
 
-The MOD 97-10 procedure is described in ISO/IEC 7064:2003, which ISO lists as the current edition, and is reproduced for a U.S. federal identifier in the [Federal Reserve's Appendix C](https://www.federalreserve.gov/frrs/regulations/appendix-c-procedures-for-generating-a-check-digit-and-validating-a-uli.htm). The standard's pure-system equation is also available in this [national standards body preview](https://preview.sist.si/sist-preview/31531/4ca4e9783a4340acb22586379dc59284/ISO-IEC-7064-2003.pdf).
+The MOD 97-10 procedure is described in ISO/IEC 7064:2003, which ISO lists as the current edition, and is reproduced for a U.S. federal identifier in the [Consumer Financial Protection Bureau's Appendix C to Regulation C (12 CFR Part 1003)](https://www.consumerfinance.gov/rules-policy/regulations/1003/c/). The standard's pure-system equation is also available in this [national standards body preview](https://preview.sist.si/sist-preview/31531/4ca4e9783a4340acb22586379dc59284/ISO-IEC-7064-2003.pdf).
 
 ## Generated properties
 
@@ -76,7 +76,7 @@ The suite checks too-short protected codes, forbidden punctuation, invalid data 
 
 ## Coverage and mutation measurements
 
-Baseline measurements were made at the original repository commit `47cb4d0` with its original tests, using the same JDK and tool versions as the final run. The only temporary baseline change was compiling for Java 8 because the original POM's Java 6 target is unsupported by the installed JDK.
+Baseline measurements were made at the original repository commit `47cb4d0` with its original tests, using the same JDK and tool versions as the final run. For the baseline, JaCoCo and PIT were temporarily enabled in the Maven configuration and the compiler target was set to Java 8, because the installed JDK does not support the original Java 6 target. Production code and tests were not changed.
 
 | Measurement | Baseline | After |
 |---|---:|---:|
